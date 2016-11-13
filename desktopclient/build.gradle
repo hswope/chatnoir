@@ -1,0 +1,66 @@
+group 'com.hms3.chatnoir'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    ext.kotlin_version = '1.0.5'
+
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+apply plugin: 'kotlin'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile 'org.springframework:spring-context:4.3.3.RELEASE'
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.21'
+    compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.21'
+    compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-kotlin', version: '2.7.5'
+    compile group: 'com.fasterxml.jackson.jaxrs', name: 'jackson-jaxrs-json-provider', version: '2.7.5'
+    compile group: 'org.glassfish.jersey.core', name: 'jersey-client', version: '2.23.2'
+}
+
+sourceSets {
+    main.kotlin.srcDirs += 'build/generated-src/main/kotlin'
+}
+
+
+def createBuildConfig(def name, def debug) {
+    def sw = new StringWriter()
+    def nl = System.getProperty("line.separator")
+
+    sw.append "package com.hms3.chatnoir.desktopclient"
+    sw.append nl
+    sw.append nl
+    sw.append "class BuildConfig {"
+    sw.append nl
+    sw.append "\tcompanion object {"
+    sw.append nl
+    sw.append "\t\tval name = \"${name}\""
+    sw.append nl
+    sw.append "\t\tval debug = ${debug}"
+    sw.append nl
+    sw.append "\t}"
+    sw.append nl
+    sw.append "}"
+    sw.append nl
+
+    def file = new File("build/generated-src/main/kotlin/BuildConfig.kt")
+    file.write(sw.toString())
+}
+
+task createDebugBuildConfig << {
+    createBuildConfig("debug",true)
+}
+
+task createReleaseBuildConfig << {
+    createBuildConfig("release",false)
+}
