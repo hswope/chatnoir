@@ -1,6 +1,7 @@
 package com.hms3.chatnoir.desktopclient.controller
 
 import com.hms3.chatnoir.desktopclient.service.AuthService
+import com.hms3.chatnoir.desktopclient.service.ChatNoirService
 import com.hms3.chatnoir.desktopclient.utility.Validator
 import javafx.application.Platform
 import javafx.event.EventHandler
@@ -20,6 +21,7 @@ import java.util.*
 class LoginController : Initializable {
     val log = LoggerFactory.getLogger(javaClass)
 
+    @Autowired lateinit private var service : ChatNoirService;
     @Autowired lateinit private var authService : AuthService
     @Autowired lateinit private var validator : Validator
     @FXML lateinit private var errorLabel : Label
@@ -32,6 +34,12 @@ class LoginController : Initializable {
 
         okButton.onAction = EventHandler{
             if (validate()){
+                service.getTest().handle { test, throwable ->
+                    if (throwable != null)
+                        log.info("${test.hello}")
+                    else
+                        log.info("test failed")
+                }
                 authService.login(usernameTextField.text, passwordTextField.text).handle { userClient, throwable ->
                     log.info("Handle")
                     if (throwable != null){

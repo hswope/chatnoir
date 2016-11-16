@@ -24,6 +24,7 @@ dependencies {
     compile 'org.springframework:spring-context:4.3.3.RELEASE'
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.21'
     compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.21'
+    compile group: 'org.slf4j', name: 'jul-to-slf4j', version: '1.7.21'
     compile group: 'org.glassfish.jersey.ext', name: 'jersey-spring3', version: '2.24'
     compile group: 'org.glassfish.jersey.containers', name: 'jersey-container-jetty-http', version: '2.24'
     compile group: 'org.glassfish.jersey.media', name: 'jersey-media-json-jackson', version: '2.24'

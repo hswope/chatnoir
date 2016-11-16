@@ -40,14 +40,36 @@ abstract class RestService {
             })
             .handleAsync(BiFunction{ t : T? , throwable : Throwable? ->
                 if(t != null) {
-                    log.info("Rest post to ${url} succeeded")
+                    log.info("Rest post ${url} succeeded")
                     future.complete(t)
                 }
                 else{
-                    log.info("Rest post to ${url} failed", throwable)
+                    log.info("Rest post ${url} failed", throwable)
                     future.completeExceptionally(throwable)
                 }}, JavaFXExecutor()
             )
+
+        return future
+    }
+
+
+    protected inline fun <reified T : Any> get(url : String, headerNames : Array<String> = arrayOf()) : CompletableFuture<T>{
+        val future : CompletableFuture<T> = CompletableFuture()
+
+        CompletableFuture
+                .supplyAsync({
+                    baseTarget.path(url).request().headers(filterHeaders(headerNames)).get(T::class.java)
+                })
+                .handleAsync(BiFunction{ t : T? , throwable : Throwable? ->
+                    if(t != null) {
+                        log.info("Rest get ${url} succeeded")
+                        future.complete(t)
+                    }
+                    else{
+                        log.info("Rest get ${url} failed", throwable)
+                        future.completeExceptionally(throwable)
+                    }}, JavaFXExecutor()
+                )
 
         return future
     }
