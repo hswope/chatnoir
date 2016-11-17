@@ -40,11 +40,11 @@ abstract class RestService {
             })
             .handleAsync(BiFunction{ t : T? , throwable : Throwable? ->
                 if(t != null) {
-                    log.info("Rest post ${url} succeeded")
+                    log.info("Rest @POST ${url} succeeded")
                     future.complete(t)
                 }
                 else{
-                    log.info("Rest post ${url} failed", throwable)
+                    log.info("Rest @POST ${url} failed", throwable)
                     future.completeExceptionally(throwable)
                 }}, JavaFXExecutor()
             )
@@ -62,11 +62,11 @@ abstract class RestService {
                 })
                 .handleAsync(BiFunction{ t : T? , throwable : Throwable? ->
                     if(t != null) {
-                        log.info("Rest get ${url} succeeded")
+                        log.info("Rest @GET ${url} succeeded")
                         future.complete(t)
                     }
                     else{
-                        log.info("Rest get ${url} failed", throwable)
+                        log.info("Rest @GET ${url} failed", throwable)
                         future.completeExceptionally(throwable)
                     }}, JavaFXExecutor()
                 )

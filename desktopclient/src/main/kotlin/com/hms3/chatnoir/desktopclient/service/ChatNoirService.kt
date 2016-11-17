@@ -1,7 +1,7 @@
 package com.hms3.chatnoir.desktopclient.service
 
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider
-import com.hms3.chatnoir.desktopclient.model.Test
+import com.hms3.chatnoir.desktopclient.model.Pong
 import org.glassfish.jersey.client.JerseyClientBuilder
 import org.glassfish.jersey.client.JerseyWebTarget
 import org.springframework.beans.factory.annotation.Value
@@ -21,12 +21,7 @@ class ChatNoirService : RestService() {
         setBaseUrl(url)
     }
 
-    fun getTest() : CompletableFuture<Test> {
-
-        val baseTarget = JerseyClientBuilder.createClient().register(JacksonJsonProvider::class.java).target(url)
-        val request = baseTarget.path("/test").request()
-        val test = request.get()
-
-        return get<Test>("/test")
+    fun ping() : CompletableFuture<Pong> {
+        return get<Pong>("ping")
     }
 }

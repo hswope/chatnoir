@@ -1,23 +1,28 @@
 package com.hms3.chatnoir.server.utility
-
-import org.apache.commons.logging.LogFactory
+import org.slf4j.LoggerFactory
 import java.util.logging.Level
 import java.util.logging.LogRecord
 
 
 class JulFacade(name : String) : java.util.logging.Logger(name, null) {
-    var logger = LogFactory.getLog(name)
+    private val logger = LoggerFactory.getLogger(name)
 
     init{
-        var level = java.util.logging.Level.SEVERE
-        if (logger.isFatalEnabled) level = Level.SEVERE
-        if (logger.isErrorEnabled) level = Level.SEVERE
-        if (logger.isWarnEnabled) level = Level.WARNING
-        if (logger.isInfoEnabled) level = Level.INFO
-        if (logger.isDebugEnabled) level = Level.FINE
-        if (logger.isTraceEnabled) level = Level.FINEST
+        if (logger.isTraceEnabled) initLevel(org.slf4j.event.Level.TRACE)
+        else if (logger.isDebugEnabled) initLevel(org.slf4j.event.Level.DEBUG)
+        else if (logger.isInfoEnabled) initLevel(org.slf4j.event.Level.INFO)
+        else if (logger.isWarnEnabled) initLevel(org.slf4j.event.Level.WARN)
+        else if (logger.isErrorEnabled) initLevel(org.slf4j.event.Level.ERROR)
+    }
 
-        this.level = level
+    private fun initLevel(slf4jLevel : org.slf4j.event.Level){
+        when (slf4jLevel) {
+            org.slf4j.event.Level.ERROR -> level = Level.SEVERE
+            org.slf4j.event.Level.WARN -> level = Level.WARNING
+            org.slf4j.event.Level.INFO -> level = Level.INFO
+            org.slf4j.event.Level.DEBUG -> level = Level.FINE
+            org.slf4j.event.Level.TRACE -> level = Level.FINEST
+        }
     }
 
     override fun log(record: LogRecord?) {

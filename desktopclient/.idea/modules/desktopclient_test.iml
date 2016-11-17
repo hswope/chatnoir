@@ -14,7 +14,8 @@
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.0.5" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework:spring-context:4.3.3.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.slf4j:slf4j-api:1.7.21" level="project" />
-    <orderEntry type="library" name="Gradle: org.slf4j:slf4j-simple:1.7.21" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.logging.log4j:log4j-core:2.7" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.logging.log4j:log4j-slf4j-impl:2.1" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.module:jackson-module-kotlin:2.7.5" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.7.5" level="project" />
     <orderEntry type="library" name="Gradle: org.glassfish.jersey.core:jersey-client:2.23.2" level="project" />
@@ -23,6 +24,7 @@
     <orderEntry type="library" name="Gradle: org.springframework:spring-beans:4.3.3.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework:spring-core:4.3.3.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework:spring-expression:4.3.3.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.logging.log4j:log4j-api:2.7" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.7.5" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.7.5" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-reflect:1.0.2" level="project" />

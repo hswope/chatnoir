@@ -34,9 +34,9 @@ class LoginController : Initializable {
 
         okButton.onAction = EventHandler{
             if (validate()){
-                service.getTest().handle { test, throwable ->
-                    if (throwable != null)
-                        log.info("${test.hello}")
+                service.ping().handle { pong, throwable ->
+                    if (pong != null)
+                        log.info("${pong.text}")
                     else
                         log.info("test failed")
                 }
