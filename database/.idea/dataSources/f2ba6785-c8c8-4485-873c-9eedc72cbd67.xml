@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="chatnoir@localhost">
+  <database-model serializer="dbm" rdbms="POSTGRES" format-version="4.0">
+    <root id="1"/>
+    <database id="2" parent="1" name="chatnoir">
+      <ObjectId>16385</ObjectId>
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </database>
+    <schema id="3" parent="2" name="public">
+      <ObjectId>2200</ObjectId>
+      <IntrospectionTimestamp>2016-11-30.10:46:04.293</IntrospectionTimestamp>
+      <IntrospectionStateNumber>976</IntrospectionStateNumber>
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <schema id="4" parent="2" name="pg_catalog">
+      <ObjectId>11</ObjectId>
+    </schema>
+    <schema id="5" parent="2" name="pg_toast">
+      <ObjectId>99</ObjectId>
+    </schema>
+    <schema id="6" parent="2" name="pg_temp_1">
+      <ObjectId>11816</ObjectId>
+    </schema>
+    <schema id="7" parent="2" name="pg_toast_temp_1">
+      <ObjectId>11817</ObjectId>
+    </schema>
+    <schema id="8" parent="2" name="information_schema">
+      <ObjectId>12349</ObjectId>
+    </schema>
+    <table id="9" parent="3" name="User">
+      <ObjectId>16472</ObjectId>
+      <StateNumber>975</StateNumber>
+    </table>
+    <column id="10" parent="9" name="id">
+      <Position>1</Position>
+      <DataType>uuid|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>975</StateNumber>
+    </column>
+    <column id="11" parent="9" name="username">
+      <Position>2</Position>
+      <DataType>text|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>975</StateNumber>
+    </column>
+    <column id="12" parent="9" name="password">
+      <Position>3</Position>
+      <DataType>text|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>975</StateNumber>
+    </column>
+    <column id="13" parent="9" name="displayname">
+      <Position>4</Position>
+      <DataType>text|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>975</StateNumber>
+    </column>
+    <index id="14" parent="9" name="User_pkey">
+      <ObjectId>16478</ObjectId>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="15" parent="9" name="User_username_uindex">
+      <ObjectId>16480</ObjectId>
+      <ColNames>username</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="16" parent="9" name="User_pkey">
+      <ObjectId>16479</ObjectId>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>User_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+  </database-model>
+</dataSource>
