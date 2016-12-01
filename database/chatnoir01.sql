@@ -7,6 +7,7 @@
 ----------------------------------------------------------
 \echo 'dropping'
 
+DROP TABLE public."Message";
 DROP TABLE public."User";
 
 ----------------------------------------------------------
@@ -16,10 +17,17 @@ DROP TABLE public."User";
 
 CREATE TABLE public."User"
 (
-    id UUID PRIMARY KEY NOT NULL,
-    username TEXT NOT NULL,
+    id UUID PRIMARY KEY,
+    username TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL,
     displayname TEXT NOT NULL
-
 );
-CREATE UNIQUE INDEX "User_username_uindex" ON public."User" (username);
+
+CREATE TABLE public."Message"
+(
+  sender UUID REFERENCES "User" (id),
+  receiver UUID REFERENCES "User" (id),
+  timesent BIGINT NOT NULL,
+  messageText TEXT NOT NULL,
+  PRIMARY KEY (sender, receiver)
+);
