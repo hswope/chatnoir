@@ -22,12 +22,23 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
     compile 'org.springframework:spring-context:4.3.3.RELEASE'
+
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.21'
     compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.7'
     compile group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.1'
+
     compile group: 'org.glassfish.jersey.ext', name: 'jersey-spring3', version: '2.24'
     compile group: 'org.glassfish.jersey.containers', name: 'jersey-container-jetty-http', version: '2.24'
     compile group: 'org.glassfish.jersey.media', name: 'jersey-media-json-jackson', version: '2.24'
+
     compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-kotlin', version: '2.7.5'
     compile group: 'com.fasterxml.jackson.jaxrs', name: 'jackson-jaxrs-json-provider', version: '2.7.5'
+
+    compile group: 'org.postgresql', name: 'postgresql', version: '9.4.1212'
+
+    compile group: 'org.hibernate', name: 'hibernate-core', version: '5.2.5.Final'
+    compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: '5.2.5.Final'
+
+    compile group: 'org.springframework.data', name: 'spring-data-commons', version: '1.12.5.RELEASE'
+    compile group: 'org.springframework.data', name: 'spring-data-jpa', version: '1.10.5.RELEASE'
 }
