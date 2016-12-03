@@ -41,4 +41,6 @@ dependencies {
 
     compile group: 'org.springframework.data', name: 'spring-data-commons', version: '1.12.5.RELEASE'
     compile group: 'org.springframework.data', name: 'spring-data-jpa', version: '1.10.5.RELEASE'
+    compile group: 'org.springframework', name: 'spring-orm', version: '4.3.3.RELEASE'
+
 }

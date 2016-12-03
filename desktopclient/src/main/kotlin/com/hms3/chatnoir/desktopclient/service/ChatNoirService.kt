@@ -2,6 +2,7 @@ package com.hms3.chatnoir.desktopclient.service
 
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider
 import com.hms3.chatnoir.desktopclient.model.Pong
+import com.hms3.chatnoir.desktopclient.model.account.User
 import org.glassfish.jersey.client.JerseyClientBuilder
 import org.glassfish.jersey.client.JerseyWebTarget
 import org.springframework.beans.factory.annotation.Value
@@ -23,5 +24,9 @@ class ChatNoirService : RestService() {
 
     fun ping() : CompletableFuture<Pong> {
         return get<Pong>("ping")
+    }
+
+    fun getUsers() : CompletableFuture<Iterable<User>> {
+        return get<kotlin.collections.Iterable<User>>("user")
     }
 }

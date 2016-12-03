@@ -29,7 +29,7 @@ class ChatNoirServer {
             val config = ResourceConfig()
                     .register(JacksonFeature::class.java)
                     .register(LoggingFeature(JulFacade("JerseyLogger"), LoggingFeature.Verbosity.PAYLOAD_ANY))
-                    .packages("com.hms3.chatnoir.server.service")
+                    .packages("com.hms3.chatnoir.server.rest")
                     .property("contextConfig", applicationContext)
 
             // launch server and wait for exit

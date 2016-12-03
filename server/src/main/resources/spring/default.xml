@@ -14,7 +14,7 @@
     <context:property-placeholder order="1" location="classpath:spring/default.properties"/>
     <context:component-scan base-package="com.hms3.chatnoir.server" />
 
-    <jpa:repositories base-package="com.hms3.chatnoir.server"/>
+    <jpa:repositories base-package="com.hms3.chatnoir.server.repository"/>
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.postgresql.Driver"/>
@@ -33,7 +33,7 @@
         <property name="dataSource" ref="dataSource"/>
         <property name="jpaVendorAdapter" ref="jpaVendorAdapter"/>
         <!-- spring based scanning for entity classes-->
-        <property name="packagesToScan" value="com.hms3.chatnoir.server"/>
+        <property name="packagesToScan" value="com.hms3.chatnoir.server.model"/>
     </bean>
 
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"/>
