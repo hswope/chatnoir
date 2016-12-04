@@ -29,9 +29,6 @@ open class User {
     fun get() : Iterable<User> {
         val users = userRepository.findAll()
         users.forEach { it.password = "********" }
-//        for (user in users) {
-//            user.password = "********"
-//        }
         return users
     }
 }

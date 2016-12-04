@@ -15,7 +15,7 @@ import java.net.URL
 import java.util.*
 
 @Component
-open class LoginController : Initializable {
+open class LoginController : Dialog(), Initializable {
 
     @Autowired lateinit private var service : ChatNoirService
     @Autowired lateinit private var validator : Validator
@@ -32,7 +32,8 @@ open class LoginController : Initializable {
                 service.login(usernameTextField.text, passwordTextField.text).handle { user, throwable ->
                     if (user != null){
                         service.loggedInUser = user
-                        (okButton.scene.window as Stage).close()
+                        exitStatus = ExitStatus.OK
+                        close()
                     }
                     else {
                         service.loggedInUser = null
@@ -43,9 +44,15 @@ open class LoginController : Initializable {
         }
 
         cancelButton.onAction = EventHandler {
-            (cancelButton.scene.window as Stage).close()
+            exitStatus = ExitStatus.CANCELED
+            close()
         }
 
+    }
+
+    private fun  close() {
+        errorLabel.text = ""
+        (okButton.scene.window as Stage).close()
     }
 
     fun validate() : Boolean {

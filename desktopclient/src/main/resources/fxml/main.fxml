@@ -17,20 +17,41 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hms3.chatnoir.desktopclient.controller.MainController">
+<VBox fx:id="topContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hms3.chatnoir.desktopclient.controller.MainController">
    <children>
       <MenuBar>
         <menus>
           <Menu mnemonicParsing="false" text="%Menu.File">
             <items>
-                  <MenuItem fx:id="fileLoginMenu" mnemonicParsing="false" text="%Menu.File.Login" />
+                  <MenuItem fx:id="fileLoginMenu" mnemonicParsing="false" text="%Menu.File.Login">
+                     <graphic>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/login.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></MenuItem>
                   <SeparatorMenuItem mnemonicParsing="false" />
-              <MenuItem fx:id="fileCloseMenu" mnemonicParsing="false" text="%Menu.File.Close" />
+              <MenuItem fx:id="fileExitMenu" mnemonicParsing="false" text="%Menu.File.Exit">
+                     <graphic>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/exit.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></MenuItem>
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="%Menu.Edit">
+          <Menu mnemonicParsing="false" text="%Menu.View">
             <items>
-              <MenuItem mnemonicParsing="false" text="%Menu.Edit.Delete" />
+              <MenuItem fx:id="viewRefreshMenu" mnemonicParsing="false" text="%Menu.View.Refresh">
+                     <graphic>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/refresh.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></MenuItem>
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="%Menu.Help">
@@ -49,6 +70,24 @@
       </MenuBar>
       <ToolBar prefHeight="40.0" prefWidth="200.0">
         <items>
+            <Button fx:id="loginButton" mnemonicParsing="false">
+               <graphic>
+                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/login.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="refreshButton" mnemonicParsing="false">
+               <graphic>
+                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/refresh.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
           <Button fx:id="aboutButton" mnemonicParsing="false">
                <graphic>
                   <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">

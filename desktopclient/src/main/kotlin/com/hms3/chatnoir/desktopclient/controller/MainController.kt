@@ -1,7 +1,7 @@
 package com.hms3.chatnoir.desktopclient.controller
 
-import com.hms3.chatnoir.desktopclient.model.account.User
 import com.hms3.chatnoir.desktopclient.service.ChatNoirService
+import com.hms3.chatnoir.desktopclient.utility.ImageRes
 import com.hms3.chatnoir.desktopclient.utility.SpringFXMLLoader
 import com.hms3.chatnoir.desktopclient.utility.StringRes
 
@@ -14,6 +14,9 @@ import javafx.scene.control.Button
 import javafx.scene.control.MenuItem
 import javafx.scene.control.TreeItem
 import javafx.scene.control.TreeView
+import javafx.scene.image.Image
+import javafx.scene.image.ImageView
+import javafx.scene.layout.VBox
 import javafx.stage.Modality
 import javafx.stage.Stage
 import javafx.stage.StageStyle
@@ -25,29 +28,40 @@ import java.net.URL
 import java.util.*
 
 @Component
-class MainController : Initializable{
+open class MainController : Initializable{
     val log = LoggerFactory.getLogger(javaClass)
 
+    @FXML lateinit private var topContainer : VBox
     @FXML lateinit private var fileLoginMenu : MenuItem
-    @FXML lateinit private var fileCloseMenu : MenuItem
+    @FXML lateinit private var loginButton : Button
+    @FXML lateinit private var fileExitMenu: MenuItem
+    @FXML lateinit private var viewRefreshMenu : MenuItem
+    @FXML lateinit private var refreshButton : Button
     @FXML lateinit private var helpAboutMenu : MenuItem
     @FXML lateinit private var aboutButton : Button
     @FXML lateinit private var userTree : TreeView<String>
     @Autowired lateinit private var fxmlLoader : SpringFXMLLoader
     @Autowired lateinit  private var service : ChatNoirService
 
+    private lateinit var mainStage : Stage
     private var aboutDlg : Scene? = null
     private var loginDlg : Scene? = null
     private var loginController : LoginController? = null
+    private lateinit var userIcon : Image
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
-
-        /////////////////////////////////////////////
+       /////////////////////////////////////////////
         //region File Menu
         /////////////////////////////////////////////
         fileLoginMenu.onAction = EventHandler { login() }
-        fileCloseMenu.onAction = EventHandler { close() }
+        fileExitMenu.onAction = EventHandler { exit() }
         // endregion
+
+        /////////////////////////////////////////////
+        //region View Menu
+        /////////////////////////////////////////////
+        viewRefreshMenu.onAction = EventHandler { refreshView() }
+        //endregion
 
         /////////////////////////////////////////////
         //region Help Menu
@@ -58,19 +72,22 @@ class MainController : Initializable{
         /////////////////////////////////////////////
         //region Button Bar
         /////////////////////////////////////////////
+        loginButton.onAction = EventHandler { login() }
+        refreshButton.onAction = EventHandler { refreshView() }
         aboutButton.onAction = EventHandler { showAbout() }
         //endregion
 
         /////////////////////////////////////////////
         //region User Tree
         /////////////////////////////////////////////
-        val rootItem = TreeItem<String>(StringRes.get("Tree.Root"))
+        userIcon = ImageRes.get("user.png")
+        val rootItem = TreeItem<String>(StringRes.get("Tree.Root"),ImageView(ImageRes.get("userfolder.png")))
         userTree.root = rootItem
         //endregion
 
     }
 
-    private fun close() {
+    private fun exit() {
         Platform.exit()
     }
 
@@ -102,18 +119,29 @@ class MainController : Initializable{
         stage.scene = loginDlg
         stage.show()
 
-        stage.onHidden = EventHandler<WindowEvent> { we -> refreshUsers()  }
+        stage.onHidden = EventHandler<WindowEvent> { we -> if (loginController?.exitStatus == Dialog.ExitStatus.OK) refreshUsers()  }
+    }
+
+    private fun refreshView() {
+        refreshUsers()
     }
 
     private fun refreshUsers() {
-        if (service.loggedInUser == null) return
+        // clear existing state
+        val mainStage = topContainer.scene.window as Stage
+        mainStage.title = StringRes.get("App.Title")
+        userTree.root.children.clear()
 
+        // if we are not logged in return
+        val loggedInUser = service.loggedInUser ?: return
+        mainStage.title = mainStage.title + " - ${loggedInUser.displayname}"
+
+        // get users and update tree
         service.getUsers().handle { users, throwable ->
             if (throwable != null) return@handle
-            userTree.root.children.clear()
             users.filter {it.id != service.loggedInUser?.id }
                 .forEach{
-                    userTree.root.children.add(TreeItem<String>(it.displayname))
+                    userTree.root.children.add(TreeItem<String>(it.displayname,ImageView(userIcon)))
                 }
         }
     }

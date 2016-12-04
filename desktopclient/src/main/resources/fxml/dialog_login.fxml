@@ -20,7 +20,7 @@
             <Label text="%Login.username" />
             <Label text="%Login.password" GridPane.rowIndex="1" />
             <TextField fx:id="usernameTextField" GridPane.columnIndex="1" />
-            <TextField fx:id="passwordTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <PasswordField fx:id="passwordTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          </children>
          <opaqueInsets>
             <Insets />
@@ -29,12 +29,12 @@
       <Label fx:id="errorLabel" textFill="RED" />
       <HBox alignment="CENTER" prefHeight="45.0" prefWidth="308.0">
          <children>
-            <Button fx:id="okButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="75.0" text="%Dlg.OK">
+            <Button fx:id="okButton" defaultButton="true" mnemonicParsing="false" prefHeight="27.0" prefWidth="75.0" text="%Dlg.OK">
                <HBox.margin>
                   <Insets right="5.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="cancelButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="75.0" text="%Dlg.Cancel">
+            <Button fx:id="cancelButton" cancelButton="true" mnemonicParsing="false" prefHeight="27.0" prefWidth="75.0" text="%Dlg.Cancel">
                <HBox.margin>
                   <Insets left="5.0" />
                </HBox.margin>
