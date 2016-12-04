@@ -4,7 +4,10 @@ import java.util.*
 
 class User{
     lateinit var id : UUID
+
     lateinit var username : String
+
     lateinit var password : String
+
     lateinit var displayname : String
 }

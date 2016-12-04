@@ -13,6 +13,4 @@ import com.fasterxml.jackson.annotation.JsonInclude
     isGetterVisibility = JsonAutoDetect.Visibility.NONE,
     setterVisibility = JsonAutoDetect.Visibility.NONE
 )
-abstract class ModelObject {
-
-}
+abstract class ModelObject {}

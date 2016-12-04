@@ -10,7 +10,7 @@ import java.util.*
 
 @Component
 @Scope("prototype")
-class SpringFXMLLoader : FXMLLoader(), ApplicationContextAware{
+open class SpringFXMLLoader : FXMLLoader(), ApplicationContextAware{
     val pathBase = "fxml/"
 
     fun <T>load(path : String) : T {

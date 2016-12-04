@@ -6,6 +6,7 @@ import javafx.application.Application
 import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.stage.Stage
+import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.context.support.ClassPathXmlApplicationContext
 
@@ -16,11 +17,11 @@ class ChatNoirApplication : Application() {
     lateinit var rootNode : Parent
 
     companion object {
-        val log = LoggerFactory.getLogger("com.hms3.chatnoir.desktopclient.ChatNoirApplication")
+        val log : Logger = LoggerFactory.getLogger("com.hms3.chatnoir.desktopclient.ChatNoirApplication")
 
         @JvmStatic fun main(args: Array<String>) {
             log.info("Starting Route Viewer")
-            log.info(String.format("Build configuration: ${BuildConfig.name}"));
+            log.info(String.format("Build configuration: ${BuildConfig.name}"))
             Application.launch(ChatNoirApplication::class.java)
         }
     }

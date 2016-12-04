@@ -7,4 +7,5 @@ import java.util.*
 
 interface UserRepository : CrudRepository<User,UUID> {
 
+    fun findByUsername(username : String) : User?
 }

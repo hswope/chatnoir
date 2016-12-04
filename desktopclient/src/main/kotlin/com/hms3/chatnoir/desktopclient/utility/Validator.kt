@@ -4,13 +4,13 @@ import javafx.beans.property.StringProperty
 import org.springframework.stereotype.Component
 
 @Component
-class Validator {
+open class Validator {
 
     fun isValidUsername(username : StringProperty , error : StringProperty) : Boolean {
         //TODO: Implement real validation
         if (false) {
             error.set(StringRes.get("Error.InvalidUsername"))
-            return false;
+            return false
         }
         return true
     }
@@ -19,7 +19,7 @@ class Validator {
         //TODO: Implement real validation
         if (false) {
             error.set(StringRes.get("Error.InvalidPassword"))
-            return false;
+            return false
         }
         return true
     }

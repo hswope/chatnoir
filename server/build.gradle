@@ -30,6 +30,7 @@ dependencies {
     compile group: 'org.glassfish.jersey.ext', name: 'jersey-spring3', version: '2.24'
     compile group: 'org.glassfish.jersey.containers', name: 'jersey-container-jetty-http', version: '2.24'
     compile group: 'org.glassfish.jersey.media', name: 'jersey-media-json-jackson', version: '2.24'
+    compile group: 'org.glassfish.jersey.media', name: 'jersey-media-sse', version: '2.24'
 
     compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-kotlin', version: '2.7.5'
     compile group: 'com.fasterxml.jackson.jaxrs', name: 'jackson-jaxrs-json-provider', version: '2.7.5'

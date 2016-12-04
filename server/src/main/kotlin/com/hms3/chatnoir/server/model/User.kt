@@ -8,7 +8,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "\"User\"", schema = "public")
-class User{
+class User {
 
     @Id
     @Column(name = "id")
