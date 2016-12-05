@@ -1,5 +1,6 @@
 package com.hms3.chatnoir.desktopclient.controller
 
+import com.hms3.chatnoir.desktopclient.model.account.User
 import com.hms3.chatnoir.desktopclient.service.ChatNoirService
 import com.hms3.chatnoir.desktopclient.utility.ImageRes
 import com.hms3.chatnoir.desktopclient.utility.SpringFXMLLoader
@@ -10,10 +11,7 @@ import javafx.event.EventHandler
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.Scene
-import javafx.scene.control.Button
-import javafx.scene.control.MenuItem
-import javafx.scene.control.TreeItem
-import javafx.scene.control.TreeView
+import javafx.scene.control.*
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.layout.VBox
@@ -39,51 +37,46 @@ open class MainController : Initializable{
     @FXML lateinit private var refreshButton : Button
     @FXML lateinit private var helpAboutMenu : MenuItem
     @FXML lateinit private var aboutButton : Button
-    @FXML lateinit private var userTree : TreeView<String>
+    @FXML lateinit private var userTree : TreeView<User>
+    @FXML lateinit private var conversationTextArea : TextArea
+    @FXML lateinit private var messageTextArea : TextArea
+    @FXML lateinit private var messageSubmitButton : Button
     @Autowired lateinit private var fxmlLoader : SpringFXMLLoader
     @Autowired lateinit  private var service : ChatNoirService
 
-    private lateinit var mainStage : Stage
     private var aboutDlg : Scene? = null
     private var loginDlg : Scene? = null
     private var loginController : LoginController? = null
     private lateinit var userIcon : Image
+    private var conversingWith : User? = null
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
-       /////////////////////////////////////////////
-        //region File Menu
-        /////////////////////////////////////////////
+
+        //file menu
         fileLoginMenu.onAction = EventHandler { login() }
         fileExitMenu.onAction = EventHandler { exit() }
-        // endregion
 
-        /////////////////////////////////////////////
-        //region View Menu
-        /////////////////////////////////////////////
+        //view menu
         viewRefreshMenu.onAction = EventHandler { refreshView() }
-        //endregion
 
-        /////////////////////////////////////////////
-        //region Help Menu
-        /////////////////////////////////////////////
+        //help menu
         helpAboutMenu.onAction = EventHandler { showAbout() }
-        // endregion
 
-        /////////////////////////////////////////////
-        //region Button Bar
-        /////////////////////////////////////////////
+        //button bar
         loginButton.onAction = EventHandler { login() }
         refreshButton.onAction = EventHandler { refreshView() }
         aboutButton.onAction = EventHandler { showAbout() }
-        //endregion
 
-        /////////////////////////////////////////////
-        //region User Tree
-        /////////////////////////////////////////////
+        //user tree
         userIcon = ImageRes.get("user.png")
-        val rootItem = TreeItem<String>(StringRes.get("Tree.Root"),ImageView(ImageRes.get("userfolder.png")))
-        userTree.root = rootItem
-        //endregion
+        val rootUser = User(StringRes.get("Tree.Root"))
+        userTree.root = TreeItem<User>(rootUser,ImageView(ImageRes.get("userfolder.png")))
+        userTree.selectionModel.selectedItemProperty().addListener { observable, oldValue, newValue ->
+            converseWith( if (newValue == null) null else (newValue as TreeItem<User>).value)
+        }
+
+        // conversation pane
+        messageSubmitButton.onAction = EventHandler { submitMessage() }
 
     }
 
@@ -141,8 +134,33 @@ open class MainController : Initializable{
             if (throwable != null) return@handle
             users.filter {it.id != service.loggedInUser?.id }
                 .forEach{
-                    userTree.root.children.add(TreeItem<String>(it.displayname,ImageView(userIcon)))
+                    userTree.root.children.add(TreeItem<User>(it,ImageView(userIcon)))
                 }
         }
+    }
+
+    private fun submitMessage() {
+        if (conversingWith == null) return
+
+    }
+
+    private fun converseWith(user : User?) {
+        if (conversingWith == user) return
+
+        // clear the existing conversation
+        conversationTextArea.clear()
+
+        // if it is the root user no real converstion
+        if (user == null || user.username == "") {
+            conversingWith = null
+            return
+        }
+
+        //start new converstation
+        conversingWith = user
+        log.info("Now conversing with ${user.displayname}")
+
+        // get message history
+
     }
 }
