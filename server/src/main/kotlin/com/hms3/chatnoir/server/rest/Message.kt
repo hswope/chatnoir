@@ -9,11 +9,11 @@ import org.glassfish.jersey.media.sse.OutboundEvent
 import org.glassfish.jersey.media.sse.SseFeature
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-import java.awt.Event
 import java.util.*
 import java.util.concurrent.ArrayBlockingQueue
 import java.util.concurrent.BlockingQueue
 import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.TimeUnit
 import javax.ws.rs.*
 import javax.ws.rs.core.Context
 import javax.ws.rs.core.GenericType
@@ -26,6 +26,7 @@ import javax.ws.rs.core.SecurityContext
 @Consumes(MediaType.APPLICATION_JSON)
 open class Message {
     val QUEUE_MAX = 10
+    val POLL_MS = 2000L
 
     @Context
     lateinit var securityContext: SecurityContext
@@ -53,34 +54,46 @@ open class Message {
 
     //TODO: fix thread safety issues around queue creation and initial query
     @GET
+    @Path("/{userId}")
     @Produces(SseFeature.SERVER_SENT_EVENTS)
-    fun getMessagesFromUser(user : User) : EventOutput{
+    fun getMessagesFromUser(@PathParam("userId") userId : UUID) : EventOutput{
         // we don't want to get messages from ourself
         val callerId = (securityContext.userPrincipal as User).id
-        if ( callerId == user.id) {
+        if ( callerId == userId) {
             throw WebApplicationException(400)
         }
 
         val eventOutput = EventOutput()
-        val converstaionKey = ConversationKey(user.id, callerId)
+        val conversationKey = ConversationKey(userId, callerId)
         Thread(Runnable {
             try {
                 val messages = ArrayList<Message>(1)
                 val genericType = object : GenericType<List<Message>>(){}
 
                 // send initial query
-                val currentMessages = messageRepository.findBySenderAndReceiver(converstaionKey.sender,converstaionKey.receiver)
-                val event = OutboundEvent.Builder()
-                        .name("messages")
-                        .data(genericType,currentMessages)
-                        .build()
-                eventOutput.write(event)
+                var currentMessages = messageRepository.findBySenderAndReceiver(conversationKey.sender,conversationKey.receiver)
+                messages.addAll(currentMessages)
+                currentMessages = messageRepository.findBySenderAndReceiver(conversationKey.receiver,conversationKey.sender)
+                messages.addAll(currentMessages)
+                messages.sort { message1, message2 ->
+                    if (message1.timesent < message2.timesent) -1
+                    else if (message1.timesent > message2.timesent) 1
+                    else 0
+                }
+                if (messages.size > 0) {
+                    val currentEvent = OutboundEvent.Builder()
+                            .name("messages")
+                            .mediaType(MediaType.APPLICATION_JSON_TYPE)
+                            .data(genericType, messages)
+                            .build()
+                    eventOutput.write(currentEvent)
+                }
 
                 // create message queue
-                var messageQueue = messageQueues[converstaionKey]
+                var messageQueue = messageQueues[conversationKey]
                 if (messageQueue == null) {
                     messageQueue = ArrayBlockingQueue<Message>(QUEUE_MAX)
-                    messageQueues.put(converstaionKey, messageQueue)
+                    messageQueues.put(conversationKey, messageQueue)
                 } else {
                     messageQueue.clear()
                 }
@@ -92,6 +105,7 @@ open class Message {
                     messages.add(message)
                     val event = OutboundEvent.Builder()
                             .name("messages")
+                            .mediaType(MediaType.APPLICATION_JSON_TYPE)
                             .data(genericType,messages)
                             .build()
                     eventOutput.write(event)
@@ -101,7 +115,7 @@ open class Message {
                 throw RuntimeException("Error writing event", ex)
             }
             finally {
-                messageQueues.remove(converstaionKey)
+                messageQueues.remove(conversationKey)
                 eventOutput.close()
             }
 

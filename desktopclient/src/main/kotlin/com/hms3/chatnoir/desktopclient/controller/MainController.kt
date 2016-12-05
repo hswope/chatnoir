@@ -20,11 +20,14 @@ import javafx.stage.Modality
 import javafx.stage.Stage
 import javafx.stage.StageStyle
 import javafx.stage.WindowEvent
+import org.glassfish.jersey.media.sse.EventListener
+import org.glassfish.jersey.media.sse.InboundEvent
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import java.net.URL
 import java.util.*
+import javax.ws.rs.core.GenericType
 
 @Component
 open class MainController : Initializable{
@@ -50,6 +53,8 @@ open class MainController : Initializable{
     private var loginController : LoginController? = null
     private lateinit var userIcon : Image
     private var conversingWith : User? = null
+    private val messagesGenericType = object : GenericType<List<Message>>(){}
+    private var lastWrittenSender : User? = null
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
 
@@ -142,6 +147,7 @@ open class MainController : Initializable{
     private fun submitMessage() {
         if (service.loggedInUser == null || conversingWith == null) return
         val msg = Message(service.loggedInUser!!.id, conversingWith!!.id, messageTextArea.text)
+        displayMessage(msg)
         service.sendMessage(msg)
         messageTextArea.clear()
     }
@@ -151,6 +157,7 @@ open class MainController : Initializable{
 
         // clear the existing conversation
         conversationTextArea.clear()
+        service.stopListeningForMessage()
 
         // if it is the root user no real converstion
         if (user == null || user.username == "") {
@@ -162,8 +169,26 @@ open class MainController : Initializable{
         conversingWith = user
         log.info("Now conversing with ${user.displayname}")
 
-        // get message history
-
+        // listen for messages
+        service.listenForMessages(conversingWith!!, EventListener {inboundEvent -> onMessagesEvent(inboundEvent)})
     }
 
+    private fun onMessagesEvent(inboundEvent : InboundEvent){
+        var messages : List<Message> = inboundEvent.readData(messagesGenericType)
+        for (message in messages) {
+            displayMessage(message)
+        }
+    }
+
+    private fun displayMessage(message : Message){
+        val sender = if (message.sender == service.loggedInUser?.id) service.loggedInUser else conversingWith
+        if (sender != lastWrittenSender){
+            if (!conversationTextArea.text.isEmpty()){
+                conversationTextArea.appendText("\n")
+            }
+            conversationTextArea.appendText("${sender?.displayname}:\n")
+            lastWrittenSender = sender
+        }
+        conversationTextArea.appendText("${message.messageText}\n")
+    }
 }
