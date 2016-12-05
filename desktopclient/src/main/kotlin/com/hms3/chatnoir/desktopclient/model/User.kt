@@ -1,4 +1,4 @@
-package com.hms3.chatnoir.desktopclient.model.account
+package com.hms3.chatnoir.desktopclient.model
 
 import java.util.*
 

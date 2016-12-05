@@ -1,7 +1,8 @@
 package com.hms3.chatnoir.desktopclient.service
 
-import com.hms3.chatnoir.desktopclient.model.account.Credentials
-import com.hms3.chatnoir.desktopclient.model.account.User
+import com.hms3.chatnoir.desktopclient.model.Credentials
+import com.hms3.chatnoir.desktopclient.model.Message
+import com.hms3.chatnoir.desktopclient.model.User
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
@@ -23,6 +24,9 @@ open class ChatNoirService : RestService() {
             else
                 setBaseUrl(url)
         }
+        get() {
+            return field
+        }
 
     @PostConstruct
     fun postConstruct() {
@@ -35,5 +39,9 @@ open class ChatNoirService : RestService() {
 
     fun getUsers() : CompletableFuture<List<User>> {
         return get("user", object : GenericType<List<User>>(){})
+    }
+
+    fun sendMessage(message : Message) : CompletableFuture<Unit> {
+        return post("message", object : GenericType<Unit>(){}, message)
     }
 }

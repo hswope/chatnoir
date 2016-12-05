@@ -9,8 +9,8 @@
     </database>
     <schema id="3" parent="2" name="public">
       <ObjectId>2200</ObjectId>
-      <IntrospectionTimestamp>2016-12-02.22:58:32.868</IntrospectionTimestamp>
-      <IntrospectionStateNumber>1051</IntrospectionStateNumber>
+      <IntrospectionTimestamp>2016-12-04.22:35:55.468</IntrospectionTimestamp>
+      <IntrospectionStateNumber>1078</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
@@ -30,12 +30,12 @@
       <ObjectId>12349</ObjectId>
     </schema>
     <table id="9" parent="3" name="Message">
-      <ObjectId>16813</ObjectId>
-      <StateNumber>1049</StateNumber>
+      <ObjectId>16937</ObjectId>
+      <StateNumber>1078</StateNumber>
     </table>
     <table id="10" parent="3" name="User">
-      <ObjectId>16803</ObjectId>
-      <StateNumber>1049</StateNumber>
+      <ObjectId>16927</ObjectId>
+      <StateNumber>1078</StateNumber>
     </table>
     <routine id="11" parent="3" name="uuid_generate_v1">
       <ObjectId>16837</ObjectId>
@@ -97,155 +97,159 @@
       <LanguageName>c</LanguageName>
       <RoutineKind>function</RoutineKind>
     </routine>
-    <column id="21" parent="9" name="sender">
+    <column id="21" parent="9" name="id">
       <Position>1</Position>
       <DataType>uuid|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>1049</StateNumber>
+      <StateNumber>1078</StateNumber>
     </column>
-    <column id="22" parent="9" name="receiver">
+    <column id="22" parent="9" name="sender">
       <Position>2</Position>
       <DataType>uuid|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>1049</StateNumber>
+      <StateNumber>1078</StateNumber>
     </column>
-    <column id="23" parent="9" name="timesent">
+    <column id="23" parent="9" name="receiver">
       <Position>3</Position>
+      <DataType>uuid|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>1078</StateNumber>
+    </column>
+    <column id="24" parent="9" name="timesent">
+      <Position>4</Position>
       <DataType>bigint|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>1049</StateNumber>
+      <StateNumber>1078</StateNumber>
     </column>
-    <column id="24" parent="9" name="messagetext">
-      <Position>4</Position>
+    <column id="25" parent="9" name="messagetext">
+      <Position>5</Position>
       <DataType>text|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>1049</StateNumber>
+      <StateNumber>1078</StateNumber>
     </column>
-    <index id="25" parent="9" name="Message_pkey">
-      <ObjectId>16819</ObjectId>
-      <ColNames>sender
-receiver</ColNames>
+    <index id="26" parent="9" name="Message_pkey">
+      <ObjectId>16943</ObjectId>
+      <ColNames>id</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="26" parent="9" name="Message_pkey">
-      <ObjectId>16820</ObjectId>
-      <ColNames>sender
-receiver</ColNames>
+    <key id="27" parent="9" name="Message_pkey">
+      <ObjectId>16944</ObjectId>
+      <ColNames>id</ColNames>
       <UnderlyingIndexName>Message_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="27" parent="9" name="Message_sender_fkey">
-      <ObjectId>16821</ObjectId>
+    <foreign-key id="28" parent="9" name="Message_sender_fkey">
+      <ObjectId>16945</ObjectId>
       <ColNames>sender</ColNames>
       <RefTableName>User</RefTableName>
       <RefKeyName>User_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="28" parent="9" name="Message_receiver_fkey">
-      <ObjectId>16826</ObjectId>
+    <foreign-key id="29" parent="9" name="Message_receiver_fkey">
+      <ObjectId>16950</ObjectId>
       <ColNames>receiver</ColNames>
       <RefTableName>User</RefTableName>
       <RefKeyName>User_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="29" parent="10" name="id">
+    <column id="30" parent="10" name="id">
       <Position>1</Position>
       <DataType>uuid|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>1048</StateNumber>
+      <StateNumber>1077</StateNumber>
     </column>
-    <column id="30" parent="10" name="username">
+    <column id="31" parent="10" name="username">
       <Position>2</Position>
       <DataType>text|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>1048</StateNumber>
+      <StateNumber>1077</StateNumber>
     </column>
-    <column id="31" parent="10" name="password">
+    <column id="32" parent="10" name="password">
       <Position>3</Position>
       <DataType>text|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>1048</StateNumber>
+      <StateNumber>1077</StateNumber>
     </column>
-    <column id="32" parent="10" name="displayname">
+    <column id="33" parent="10" name="displayname">
       <Position>4</Position>
       <DataType>text|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>1048</StateNumber>
+      <StateNumber>1077</StateNumber>
     </column>
-    <index id="33" parent="10" name="User_pkey">
-      <ObjectId>16809</ObjectId>
+    <index id="34" parent="10" name="User_pkey">
+      <ObjectId>16933</ObjectId>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="34" parent="10" name="User_username_key">
-      <ObjectId>16811</ObjectId>
+    <index id="35" parent="10" name="User_username_key">
+      <ObjectId>16935</ObjectId>
       <ColNames>username</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="35" parent="10" name="User_pkey">
-      <ObjectId>16810</ObjectId>
+    <key id="36" parent="10" name="User_pkey">
+      <ObjectId>16934</ObjectId>
       <ColNames>id</ColNames>
       <UnderlyingIndexName>User_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <key id="36" parent="10" name="User_username_key">
-      <ObjectId>16812</ObjectId>
+    <key id="37" parent="10" name="User_username_key">
+      <ObjectId>16936</ObjectId>
       <ColNames>username</ColNames>
       <UnderlyingIndexName>User_username_key</UnderlyingIndexName>
     </key>
-    <argument id="37" parent="11">
+    <argument id="38" parent="11">
       <ArgumentDirection>R</ArgumentDirection>
       <DataType>uuid|0</DataType>
     </argument>
-    <argument id="38" parent="12">
+    <argument id="39" parent="12">
       <ArgumentDirection>R</ArgumentDirection>
       <DataType>uuid|0</DataType>
     </argument>
-    <argument id="39" parent="13" name="namespace">
+    <argument id="40" parent="13" name="namespace">
       <Position>1</Position>
       <DataType>uuid|0</DataType>
     </argument>
-    <argument id="40" parent="13" name="name">
+    <argument id="41" parent="13" name="name">
       <Position>2</Position>
       <DataType>text|0</DataType>
     </argument>
-    <argument id="41" parent="13">
+    <argument id="42" parent="13">
       <ArgumentDirection>R</ArgumentDirection>
       <DataType>uuid|0</DataType>
     </argument>
-    <argument id="42" parent="14">
+    <argument id="43" parent="14">
       <ArgumentDirection>R</ArgumentDirection>
       <DataType>uuid|0</DataType>
     </argument>
-    <argument id="43" parent="15" name="namespace">
+    <argument id="44" parent="15" name="namespace">
       <Position>1</Position>
       <DataType>uuid|0</DataType>
     </argument>
-    <argument id="44" parent="15" name="name">
+    <argument id="45" parent="15" name="name">
       <Position>2</Position>
       <DataType>text|0</DataType>
     </argument>
-    <argument id="45" parent="15">
+    <argument id="46" parent="15">
       <ArgumentDirection>R</ArgumentDirection>
       <DataType>uuid|0</DataType>
     </argument>
-    <argument id="46" parent="16">
+    <argument id="47" parent="16">
       <ArgumentDirection>R</ArgumentDirection>
       <DataType>uuid|0</DataType>
     </argument>
-    <argument id="47" parent="17">
+    <argument id="48" parent="17">
       <ArgumentDirection>R</ArgumentDirection>
       <DataType>uuid|0</DataType>
     </argument>
-    <argument id="48" parent="18">
+    <argument id="49" parent="18">
       <ArgumentDirection>R</ArgumentDirection>
       <DataType>uuid|0</DataType>
     </argument>
-    <argument id="49" parent="19">
+    <argument id="50" parent="19">
       <ArgumentDirection>R</ArgumentDirection>
       <DataType>uuid|0</DataType>
     </argument>
-    <argument id="50" parent="20">
+    <argument id="51" parent="20">
       <ArgumentDirection>R</ArgumentDirection>
       <DataType>uuid|0</DataType>
     </argument>

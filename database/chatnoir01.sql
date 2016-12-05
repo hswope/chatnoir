@@ -25,9 +25,9 @@ CREATE TABLE public."User"
 
 CREATE TABLE public."Message"
 (
-  sender UUID REFERENCES "User" (id),
-  receiver UUID REFERENCES "User" (id),
+  id UUID PRIMARY KEY,
+  sender UUID NOT NULL REFERENCES "User" (id),
+  receiver UUID NOT NULL REFERENCES "User" (id),
   timesent BIGINT NOT NULL,
-  messageText TEXT NOT NULL,
-  PRIMARY KEY (sender, receiver)
+  messageText TEXT NOT NULL
 );

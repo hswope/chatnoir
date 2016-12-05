@@ -30,7 +30,7 @@ open class LoginController : Dialog(), Initializable {
         okButton.onAction = EventHandler{
             if (validate()){
                 service.login(usernameTextField.text, passwordTextField.text).handle { user, throwable ->
-                    if (user != null){
+                    if (throwable == null){
                         service.loggedInUser = user
                         exitStatus = ExitStatus.OK
                         close()

@@ -1,6 +1,7 @@
 package com.hms3.chatnoir.desktopclient.controller
 
-import com.hms3.chatnoir.desktopclient.model.account.User
+import com.hms3.chatnoir.desktopclient.model.Message
+import com.hms3.chatnoir.desktopclient.model.User
 import com.hms3.chatnoir.desktopclient.service.ChatNoirService
 import com.hms3.chatnoir.desktopclient.utility.ImageRes
 import com.hms3.chatnoir.desktopclient.utility.SpringFXMLLoader
@@ -14,6 +15,8 @@ import javafx.scene.Scene
 import javafx.scene.control.*
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
+import javafx.scene.input.KeyCode
+import javafx.scene.input.KeyEvent
 import javafx.scene.layout.VBox
 import javafx.stage.Modality
 import javafx.stage.Stage
@@ -77,7 +80,6 @@ open class MainController : Initializable{
 
         // conversation pane
         messageSubmitButton.onAction = EventHandler { submitMessage() }
-
     }
 
     private fun exit() {
@@ -140,8 +142,10 @@ open class MainController : Initializable{
     }
 
     private fun submitMessage() {
-        if (conversingWith == null) return
-
+        if (service.loggedInUser == null || conversingWith == null) return
+        val msg = Message(service.loggedInUser!!.id, conversingWith!!.id, messageTextArea.text)
+        service.sendMessage(msg)
+        messageTextArea.clear()
     }
 
     private fun converseWith(user : User?) {
@@ -163,4 +167,5 @@ open class MainController : Initializable{
         // get message history
 
     }
+
 }

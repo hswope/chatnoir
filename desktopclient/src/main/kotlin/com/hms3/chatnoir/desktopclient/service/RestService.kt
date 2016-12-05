@@ -36,7 +36,7 @@ abstract class RestService {
                     baseTarget.path(url).request().headers(headerNames.filterHeaders()).post(Entity.json(body), genericType)
                 })
                 .handleAsync(BiFunction{ t : T? , throwable : Throwable? ->
-                    if(t != null) {
+                    if(throwable == null) {
                         log.info("Rest @POST $url succeeded")
                         future.complete(t)
                     }
@@ -57,7 +57,7 @@ abstract class RestService {
                     baseTarget.path(url).request().headers(headerNames.filterHeaders()).get(genericType)
                 })
                 .handleAsync(BiFunction{ t : T? , throwable : Throwable? ->
-                    if(t != null) {
+                    if(throwable == null) {
                         log.info("Rest @GET $url succeeded")
                         future.complete(t)
                     }
