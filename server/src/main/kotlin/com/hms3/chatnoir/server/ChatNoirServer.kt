@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.context.support.ClassPathXmlApplicationContext
 import javax.ws.rs.core.UriBuilder
 import org.glassfish.jersey.logging.LoggingFeature
+import javax.ws.rs.container.ContainerRequestFilter
 
 class ChatNoirServer {
 
@@ -26,9 +27,11 @@ class ChatNoirServer {
             val base = applicationContext.beanFactory.resolveEmbeddedValue("\${Server.BaseUrl}")
             val port = applicationContext.beanFactory.resolveEmbeddedValue("\${Server.Port}").toInt()
             val baseUrl = UriBuilder.fromUri(base).port(port).build()
+            val authFilter = applicationContext.beanFactory.getBean(ContainerRequestFilter::class.java)
             val config = ResourceConfig()
                     .register(JacksonFeature::class.java)
                     .register(LoggingFeature(JulFacade("JerseyLogger"), LoggingFeature.Verbosity.PAYLOAD_ANY))
+                    .register(authFilter)
                     .packages("com.hms3.chatnoir.server.rest")
                     .property("contextConfig", applicationContext)
 

@@ -6,6 +6,7 @@ import com.hms3.chatnoir.server.model.User
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
+import javax.annotation.security.PermitAll
 import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
 
@@ -19,6 +20,7 @@ open class Login {
     private lateinit var userRepository : UserRepository
 
     @POST
+    @PermitAll
     fun login(credentials: Credentials) : User {
         val user = userRepository.findByUsername(credentials.username)
         if (user == null || user.password != credentials.password)

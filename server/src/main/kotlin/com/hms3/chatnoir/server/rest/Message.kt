@@ -1,13 +1,11 @@
 package com.hms3.chatnoir.server.rest
 
 import com.hms3.chatnoir.server.model.Message
+import com.hms3.chatnoir.server.model.User
 import com.hms3.chatnoir.server.repository.MessageRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-import javax.ws.rs.Consumes
-import javax.ws.rs.POST
-import javax.ws.rs.Path
-import javax.ws.rs.Produces
+import javax.ws.rs.*
 import javax.ws.rs.core.Context
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.SecurityContext
@@ -26,6 +24,9 @@ open class Message {
 
     @POST
     fun addMessage(message : Message) {
+        if ((securityContext.userPrincipal as User).id != message.sender) {
+            throw WebApplicationException(401)
+        }
         messageRepository.save(message)
     }
 
