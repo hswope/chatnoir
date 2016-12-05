@@ -65,8 +65,16 @@ open class Message {
         val converstaionKey = ConversationKey(user.id, callerId)
         Thread(Runnable {
             try {
+                val messages = ArrayList<Message>(1)
+                val genericType = object : GenericType<List<Message>>(){}
 
                 // send initial query
+                val currentMessages = messageRepository.findBySenderAndReceiver(converstaionKey.sender,converstaionKey.receiver)
+                val event = OutboundEvent.Builder()
+                        .name("messages")
+                        .data(genericType,currentMessages)
+                        .build()
+                eventOutput.write(event)
 
                 // create message queue
                 var messageQueue = messageQueues[converstaionKey]
@@ -78,8 +86,6 @@ open class Message {
                 }
 
                 // send incoming message
-                val messages = ArrayList<Message>(1)
-                val genericType = object : GenericType<List<Message>>(){}
                 while (true){
                     val message = messageQueue.take()
                     messages.clear()

@@ -5,5 +5,5 @@ import org.springframework.data.repository.CrudRepository
 import java.util.*
 
 interface MessageRepository : CrudRepository<Message, UUID> {
-
+    fun findBySenderAndReceiver(sender : UUID, receiver : UUID) : Iterable<Message>
 }
