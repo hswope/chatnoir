@@ -157,7 +157,9 @@ open class MainController : Initializable{
 
         // clear the existing conversation
         conversationTextArea.clear()
-        service.stopListeningForMessage()
+
+        if (conversingWith != null)
+            service.stopListeningForMessages(conversingWith!!)
 
         // if it is the root user no real converstion
         if (user == null || user.username == "") {

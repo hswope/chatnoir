@@ -59,8 +59,9 @@ open class ChatNoirService : RestService() {
         eventSource?.open()
     }
 
-    fun stopListeningForMessage() {
+    fun stopListeningForMessages(user : User) {
         eventSource?.close()
         eventSource = null
+        post("message/${user.id}/close", object : GenericType<Unit>(){}, "")
     }
 }

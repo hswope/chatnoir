@@ -52,6 +52,21 @@ open class Message {
         messageQueue?.add(message)
     }
 
+    @POST
+    @Path("/{userId}/close")
+    fun stopGettingMessagesFromUser(@PathParam("userId") userId : UUID) {
+        val caller : User = securityContext.userPrincipal as User
+
+        // make sure we aren't trying to close the wrong conversation
+        if (caller.id == userId) throw WebApplicationException(400)
+
+        // add to the queque a cancel message
+        val conversationKey = ConversationKey(userId,caller.id)
+        val messageQueue = messageQueues[conversationKey]
+        if (messageQueue == null) throw WebApplicationException(400)
+        messageQueue?.add(Message.createEmptyMessage())
+    }
+
     //TODO: fix thread safety issues around queue creation and initial query
     @GET
     @Path("/{userId}")
@@ -99,8 +114,13 @@ open class Message {
                 }
 
                 // send incoming message
-                while (true){
+                var open = true;
+                while (open){
                     val message = messageQueue.take()
+                    if (Message.isEmpty(message)) {
+                        open = false
+                        continue
+                    }
                     messages.clear()
                     messages.add(message)
                     val event = OutboundEvent.Builder()
